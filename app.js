@@ -1,29 +1,34 @@
 const https = require('https');
 const prompt = require('prompt');
- 
-//
-// Start the prompt
-//
+const colors = require("colors");
+
+prompt.message = ""
+prompt.delimiter = colors.green(":");
+
 prompt.start();
 
-//
-// Get two properties from the user: username and email
-//
-prompt.get(['latitude1', 'longitude1', 'latitude2', 'longitude2'], function (err, result) {
-  //
-  // Log the results.
-  //
-  console.log('Pickup Location');
-  console.log('  latitude: ' + result.latitude1);
-  console.log('  longitude: ' + result.longitude1);
-  console.log('Dropoff Location');
-  console.log('  latitude: ' + result.latitude2);
-  console.log('  longitude: ' + result.longitude2);
-  
-  const apiString = getApiString(result)
-  console.log(getApiString(result))
-  retrieveData(apiString)
+prompt.get({
+  properties: {
+    pickupLatitude: {
+      description: colors.magenta("Pickup Location\n latitude")
+    },
+    pickupLongitude: {
+      description: colors.magenta(" longitude")
+    },
+    dropOffLatitude: {
+      description: colors.magenta("Dropoff Location\n latitude")
+    },
+    dropOffLocation: {
+      description: colors.magenta(" longitude")
+    },
+    no_of_passengers: {
+      description: colors.magenta("Number of Passengers")
+    }
+  }
+}, function (err, result) {
+  console.log(result)
 });
+
 
 function getApiString(result) {
   const pickupLocation = `${result.latitude1},${result.longitude1}`;

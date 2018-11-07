@@ -3,40 +3,27 @@ import { SupplierResponse } from "./SupplierResponse";
 
 const supplierEndpoints = ['dave', 'eric', 'jeff'];
 
-async function getDave() {
-  let response = axios.get('https://techtest.rideways.com/dave', {
-    params: {
-      pickup: '3.410632,-2.157533',
-      dropoff: '3.410632,-2.157533'
-    },
-    timeout: 2000
-  })
-  return response
-}
-
-async function getEric() {
-  let response = axios.get('https://techtest.rideways.com/eric', {
-    params: {
-      pickup: '3.410632,-2.157533',
-      dropoff: '3.410632,-2.157533'
-    },
-    timeout: 2000
-  })
-  return response
-}
-
-
 export function retrieveSupplierInfo(pickup: string, dropoff: string) {
-  const dataRetrievalPromises = supplierEndpoints.map((supplierEndpoint) => {
-    return axios.get(`https://techtest.rideways.com/${supplierEndpoint}`, {
-      params: {
-        pickup: pickup,
-        dropoff: dropoff
-      }
-    }).then((res) => {
-      return res.data as SupplierResponse
-    })
-  })
+  const dataRetrievalPromises = supplierEndpoints.map(endpoint => retrieveData(endpoint, pickup, dropoff))
+
 
   return axios.all(dataRetrievalPromises)
+}
+
+export async function r(pickup: string, dropoff: string) {
+  const dataRetrievalPromises = supplierEndpoints.map(endpoint => retrieveData(endpoint, pickup, dropoff))
+
+  const results = await axios.all(dataRetrievalPromises)
+}
+
+async function retrieveData(endpoint: string, pickup: string, dropoff: string) {
+  const apiResponse = await axios.get<SupplierResponse>(`https://techtest.rideways.com/${endpoint}`, {
+    params: {
+      pickup: pickup,
+      dropoff: dropoff
+    }
+  })
+
+  const data = apiResponse.data
+  return data
 }

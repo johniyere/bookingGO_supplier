@@ -12,30 +12,23 @@ function stringifyLocation(latitude: string, longitude: string) {
 
 async function callMe() {
 
-  try {
-
   
-    const results = await askQuestions();
-    const pickup = stringifyLocation(results.pickupLatitude, results.pickupLongitude)
-    const dropoff = stringifyLocation(results.dropoffLatitude, results.dropoffLongitude)
-    
-    
-    const supplierResponses = await retrieveSupplierInfo(pickup, dropoff)
+  const results = await askQuestions();
+  const pickup = stringifyLocation(results.pickupLatitude, results.pickupLongitude)
+  const dropoff = stringifyLocation(results.dropoffLatitude, results.dropoffLongitude)
+  
+  
+  const supplierResponses = await retrieveSupplierInfo(pickup, dropoff)
 
-    console.log(supplierResponses)
-  } catch (err) {
-    console.error(err)
-  }
-    
-  // console.log(supplierResponses)
-  // const limitedOptions = supplierResponses.map((supplier) => {
-  //   const options = limitOptions(supplier.options, results.no_of_passengers)
-  //   supplier.options = options;
-  //   return supplier
-  // })
-  // console.log(limitedOptions)
-  // let cheapest = getCheapestCartType(limitedOptions);
-  // printResults(cheapest)
+  console.log(supplierResponses)
+  const limitedOptions = supplierResponses.map((supplier) => {
+    const options = limitOptions(supplier.options, results.no_of_passengers)
+    supplier.options = options;
+    return supplier
+  })
+  console.log(limitedOptions)
+  let cheapest = getCheapestCartType(limitedOptions);
+  printResults(cheapest)
   
 }
 

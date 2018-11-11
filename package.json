@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "ts-node src/app.ts"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +13,7 @@
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.2",
     "@types/prompts": "^1.1.0",
+    "axios-mock-adapter": "^1.15.0",
     "jest": "^23.6.0",
     "ts-jest": "^23.10.4",
     "ts-node": "^7.0.1",

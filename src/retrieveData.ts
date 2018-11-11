@@ -16,7 +16,7 @@ export async function r(pickup: string, dropoff: string) {
   const results = await axios.all(dataRetrievalPromises)
 }
 
-async function retrieveData(endpoint: string, pickup: string, dropoff: string) {
+export async function retrieveData(endpoint: string, pickup: string, dropoff: string) {
   const apiResponse = await axios.get<SupplierResponse>(`https://techtest.rideways.com/${endpoint}`, {
     params: {
       pickup: pickup,

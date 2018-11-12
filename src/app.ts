@@ -1,15 +1,25 @@
-import {PromptObject, prompt} from "prompts";
-import { retrieveSupplierInfo } from "./retrieveData";
-import axios from "axios";
+import { retrieveSupplierInfo, retrieveData } from "./retrieveData";
 import { askQuestions } from "./promptUser";
 import { limitOptions } from "./limitOptions";
-import { SupplierResponse } from "./SupplierResponse";
 import { getCheapestCartType } from "./getChepestCartypes";
 
 function stringifyLocation(latitude: string, longitude: string) {
   return `${latitude},${longitude}`
 }
 
+
+async function tryMe() {
+  try {
+    const results = await askQuestions();
+    const pickup = stringifyLocation(results.pickupLatitude, results.pickupLongitude)
+    const dropoff = stringifyLocation(results.dropoffLatitude, results.dropoffLongitude)
+
+    const data = await retrieveData('dave', pickup, dropoff);
+    console.log(data)
+  } catch (error) {
+    console.error(error)
+  }
+}
 async function callMe() {
 
   
@@ -32,7 +42,7 @@ async function callMe() {
   
 }
 
-callMe()
+tryMe()
 
 function printResults(options: {[s: string]: {supplier: string, price: number}}) {
   for (var key in options) {

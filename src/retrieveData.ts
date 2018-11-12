@@ -1,5 +1,6 @@
 import axios from "axios";
-import { SupplierResponse } from "./SupplierResponse";
+import { AxiosError } from 'axios'
+import { SupplierResponse, TimeoutError, SupplierError } from "./SupplierResponse";
 
 const supplierEndpoints = ['dave', 'eric', 'jeff'];
 
@@ -17,13 +18,30 @@ export async function r(pickup: string, dropoff: string) {
 }
 
 export async function retrieveData(endpoint: string, pickup: string, dropoff: string) {
-  const apiResponse = await axios.get<SupplierResponse>(`https://techtest.rideways.com/${endpoint}`, {
-    params: {
-      pickup: pickup,
-      dropoff: dropoff
-    }
-  })
+  try {
+    const apiResponse = await axios.get<SupplierResponse>(`https://techtest.rideways.com/${endpoint}`, {
+      params: {
+        pickup: pickup,
+        dropoff: dropoff
+      },
+      timeout: 100,
+    })
 
-  const data = apiResponse.data
-  return data
+    const data = apiResponse.data
+    return data
+  } catch (err) {
+    
+    // console.log('caught error', err)
+
+
+    if (err.code == 'ECONNABORTED') {
+      throw new TimeoutError(err.message)
+    } 
+
+    if (err.response.data) {
+      throw new SupplierError(err.message)
+    }
+    
+  }
+
 }

@@ -1,5 +1,3 @@
-import { AxiosError } from "axios";
-
 export interface SupplierResponse {
   supplier_id: string;
   pickup: string;
@@ -20,15 +18,17 @@ export interface SupplierErroResponse {
   path: string;
 }
 export class SupplierError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'Supplier Error'
+  name = 'Supplier Error';
+  
+  constructor(message: string, public response: SupplierErroResponse) {
+    super(message);    
   }
 }
 
 export class TimeoutError extends Error {
-  constructor(message: string) {
+  name = 'Timeout Error';
+
+  constructor(message: string, public endpoint: string) {
     super(message);
-    this.name = 'Timeout Error'
   }
 }

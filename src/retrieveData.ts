@@ -1,20 +1,12 @@
 import axios from "axios";
-import { AxiosError } from 'axios'
 import { SupplierResponse, TimeoutError, SupplierError } from "./SupplierResponse";
 
 const supplierEndpoints = ['dave', 'eric', 'jeff'];
 
 export function retrieveSupplierInfo(pickup: string, dropoff: string) {
-  const dataRetrievalPromises = supplierEndpoints.map(endpoint => retrieveData(endpoint, pickup, dropoff))
+  const dataRetrievalPromises = supplierEndpoints.map(endpoint => retrieveData(endpoint, pickup, dropoff));
 
-
-  return axios.all(dataRetrievalPromises)
-}
-
-export async function r(pickup: string, dropoff: string) {
-  const dataRetrievalPromises = supplierEndpoints.map(endpoint => retrieveData(endpoint, pickup, dropoff))
-
-  const results = await axios.all(dataRetrievalPromises)
+  return axios.all(dataRetrievalPromises);
 }
 
 export async function retrieveData(endpoint: string, pickup: string, dropoff: string) {
@@ -24,24 +16,21 @@ export async function retrieveData(endpoint: string, pickup: string, dropoff: st
         pickup: pickup,
         dropoff: dropoff
       },
-      timeout: 100,
-    })
+      timeout: 2000,
+    });
 
-    const data = apiResponse.data
+    const data = apiResponse.data;
     return data
   } catch (err) {
-    
-    // console.log('caught error', err)
-
-
     if (err.code == 'ECONNABORTED') {
-      throw new TimeoutError(err.message)
+      throw new TimeoutError(err.message, endpoint)
     } 
 
     if (err.response.data) {
-      throw new SupplierError(err.message)
+      throw new SupplierError(err.message, err.response.data)
     }
     
+    throw new Error(`Something unexpected happened when trying to retrieve data for ${endpoint}`)
   }
 
 }

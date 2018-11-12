@@ -2,7 +2,6 @@ import { retrieveData } from "../src/retrieveData";
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { SupplierResponse, TimeoutError } from "../src/SupplierResponse";
-import { doesNotReject } from "assert";
 
 
 it('calls axios and returns supplier information', async () => {
@@ -38,9 +37,6 @@ it('calls axios and returns supplier information', async () => {
   await expect(retrieveData('dave', pickup, dropoff)).resolves.toEqual(data)
 })
 
-/**
- * CHECK for specific timeout??
- */
 it('should return timeout', async () => {
   let mock = new MockAdapter(axios);
 

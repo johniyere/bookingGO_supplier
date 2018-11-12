@@ -1,4 +1,4 @@
-import { retrieveSupplierInfo, retrieveData } from "./retrieveData";
+import { retrieveSupplierInfo } from "./retrieveData";
 import { askQuestions } from "./promptUser";
 import { limitOptions } from "./limitOptions";
 import { getCheapestCartType } from "./getChepestCartypes";
@@ -14,7 +14,8 @@ async function tryMe() {
     const pickup = stringifyLocation(results.pickupLatitude, results.pickupLongitude)
     const dropoff = stringifyLocation(results.dropoffLatitude, results.dropoffLongitude)
 
-    const data = await retrieveData('dave', pickup, dropoff);
+    // const data = await retrieveData('dave', pickup, dropoff);
+    const data = await retrieveSupplierInfo(pickup, dropoff);
     console.log(data)
   } catch (error) {
     console.error(error)

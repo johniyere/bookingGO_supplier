@@ -22,15 +22,16 @@ export async function retrieveData(endpoint: string, pickup: string, dropoff: st
     const data = apiResponse.data;
     return data
   } catch (err) {
-    if (err.code == 'ECONNABORTED') {
-      throw new TimeoutError(err.message, endpoint)
-    } 
+    let customError = new Error(`Something unexpected happened when trying to retrieve data for ${endpoint}`);
 
-    if (err.response.data) {
-      throw new SupplierError(err.message, err.response.data)
+    if (err.code == 'ECONNABORTED') {
+      customError = new TimeoutError(err.message, endpoint)
+    } 
+    // console.log(err)
+    if (err.response && err.response.data) {
+      customError = new SupplierError(err.message, err.response.data)
     }
-    
-    throw new Error(`Something unexpected happened when trying to retrieve data for ${endpoint}`)
+    return customError;
   }
 
-}
+}8

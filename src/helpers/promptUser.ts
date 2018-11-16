@@ -8,6 +8,7 @@ export interface PromptResponse {
   dropoffLongitude: string;
   no_of_passengers: number;
 }
+
 export function askQuestions() {
   const questions: PromptObject[] = [
     {

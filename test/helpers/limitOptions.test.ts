@@ -1,5 +1,5 @@
-import { limitOptions } from "../src/limitOptions";
-import { Option } from "../src/SupplierResponse";
+import { limitOptions } from "../../src/helpers/limitOptions";
+import { Option } from "../../src/helpers/Responses";
 
 it('should return limted options', () => {
   const options: Option[] = [

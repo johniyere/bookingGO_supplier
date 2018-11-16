@@ -1,7 +1,7 @@
-import { SupplierResponse } from "./SupplierResponse";
+import { SupplierResponse, CarTypes } from "./Responses";
 
 export function getCheapestCartType(suppliers: SupplierResponse[]) {
-  let car_type_max: {[s: string]: {supplier: string, price: number}} = {
+  let car_type_max: CarTypes = {
     "STANDARD": {
       supplier: 'M',
       price: Number.MAX_SAFE_INTEGER
@@ -37,5 +37,18 @@ export function getCheapestCartType(suppliers: SupplierResponse[]) {
     })
   });
 
-  return car_type_max;
+  const validCarTypes = returnValidCarTypes(car_type_max)
+
+  return validCarTypes;
+}
+
+export function returnValidCarTypes(carTypes: CarTypes) {
+  let validCarTypes: CarTypes = {}
+
+  for (var key in carTypes) {
+    if (carTypes[key].supplier != 'M')
+      validCarTypes[key] = carTypes[key]
+  }
+
+  return validCarTypes
 }

@@ -1,4 +1,4 @@
-import { Option } from "./SupplierResponse";
+import { Option } from "./Responses";
 
 const car_type_max: {[s: string]: number} = {
   "STANDARD": 4,

@@ -36,3 +36,5 @@ export class TimeoutError extends Error {
 export function isSupplierResponse(value: SupplierResponse | Error): value is SupplierResponse {
   return (<SupplierResponse>value).supplier_id !== undefined;
 }
+
+export type CarTypes = {[s: string]: {supplier: string, price: number}};

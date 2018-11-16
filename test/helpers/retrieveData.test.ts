@@ -1,7 +1,7 @@
-import { retrieveData } from "../src/retrieveData";
+import { retrieveData } from "../../src/helpers/retrieveData";
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { SupplierResponse, TimeoutError } from "../src/SupplierResponse";
+import { SupplierResponse, TimeoutError, SupplierError } from "../../src/helpers/Responses";
 
 
 it('calls axios and returns supplier information', async () => {
@@ -37,7 +37,7 @@ it('calls axios and returns supplier information', async () => {
   await expect(retrieveData('dave', pickup, dropoff)).resolves.toEqual(data)
 })
 
-it('should return timeout', async () => {
+it('should return timeout error', async () => {
   let mock = new MockAdapter(axios);
 
   mock.onGet('https://techtest.rideways.com/dave').timeout()
@@ -45,5 +45,25 @@ it('should return timeout', async () => {
   const pickup = '3.410632,-2.157533';
   const dropoff = '3.410632,-2.157533';
   expect.assertions(1)
-  await expect(retrieveData(endPoint, pickup, dropoff)).rejects.toThrow(TimeoutError)
+  
+  await expect(retrieveData(endPoint, pickup, dropoff)).resolves.toBeInstanceOf(TimeoutError)
+})
+
+it('should return supplier error', async () => {
+  let mock = new MockAdapter(axios);
+  const data = {
+    "timestamp": "2018-08-14T13:12:34.072+0000",
+    "status": 500,
+    "error": "Internal Server Error",
+    "message": "Something has gone wrong",
+    "path": "/dave"
+  }
+
+  mock.onGet('https://techtest.rideways.com/dave').reply(500,data)
+  const endPoint = 'dave'
+  const pickup = '3.410632,-2.157533';
+  const dropoff = '3.410632,-2.157533';
+  expect.assertions(1)
+  
+  await expect(retrieveData(endPoint, pickup, dropoff)).resolves.toBeInstanceOf(SupplierError)
 })

@@ -1,15 +1,9 @@
-import { askQuestions } from "./promptUser";
-import { getCheapestSupplierOptions } from "./cheapestSupplierOptions";
+import { askQuestions } from "./helpers/promptUser";
+import { getCheapestSupplierOptions } from "./helpers/cheapestSupplierOptions";
+import { CarTypes } from "./helpers/Responses";
 
 function stringifyLocation(latitude: string, longitude: string) {
   return `${latitude},${longitude}`
-}
-
-function printResults(options: {[s: string]: {supplier: string, price: number}}) {
-  for (var key in options) {
-    if (options[key].supplier != 'M')
-      console.log(`${key} - ${options[key].supplier} - ${options[key].price}`);
-  }
 }
 
 (async function cliLauncher() {
@@ -17,11 +11,12 @@ function printResults(options: {[s: string]: {supplier: string, price: number}})
     const results = await askQuestions();
     const pickup = stringifyLocation(results.pickupLatitude, results.pickupLongitude);
     const dropoff = stringifyLocation(results.dropoffLatitude, results.dropoffLongitude);
-    const cheapestSupplierOptions = await getCheapestSupplierOptions(pickup, dropoff, results.no_of_passengers);
+    const validCarTypes = await getCheapestSupplierOptions(pickup, dropoff, results.no_of_passengers);
 
-    printResults(cheapestSupplierOptions);
+    for (var key in validCarTypes) {
+      console.log(`${key} - ${validCarTypes[key].supplier} - ${validCarTypes[key].price}`);
+    }
   } catch (error) {
     console.log(error)
   }
 })();
-

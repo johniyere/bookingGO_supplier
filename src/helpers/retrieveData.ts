@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SupplierResponse, TimeoutError, SupplierError } from "./SupplierResponse";
+import { SupplierResponse, TimeoutError, SupplierError } from "./Responses";
 
 const supplierEndpoints = ['dave', 'eric', 'jeff'];
 
@@ -34,4 +34,4 @@ export async function retrieveData(endpoint: string, pickup: string, dropoff: st
     return customError;
   }
 
-}8
+}

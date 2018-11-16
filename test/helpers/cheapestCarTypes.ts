@@ -1,5 +1,5 @@
-import { getCheapestCartType } from "../src/getChepestCartypes";
-import { SupplierResponse } from "../src/SupplierResponse";
+import { getCheapestCartType } from "../../src/helpers/cheapestCarTypes";
+import { SupplierResponse } from "../../src/helpers/Responses";
 
 it('should return the cheapest type', () => {
   const suppliers: SupplierResponse[] = [

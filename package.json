@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
-    "start": "ts-node src/app.ts",
-    "start-cli": "ts-node src/app.cli.ts"
+    "test": "jest --verbose --coverage",
+    "start-cli": "ts-node src/app.cli.ts",
+    "start-api": "ts-node src/bin/www.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/body-parser": "^1.17.0",
+    "@types/express": "^4.16.0",
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.2",
     "@types/prompts": "^1.1.0",
@@ -23,6 +25,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "prompts": "^1.2.0"
   }
 }

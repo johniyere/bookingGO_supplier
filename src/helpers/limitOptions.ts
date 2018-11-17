@@ -1,6 +1,6 @@
 import { Option } from "./Responses";
 
-const car_type_max: {[s: string]: number} = {
+const car_type_max: {[car_type: string]: number} = {
   "STANDARD": 4,
   "EXECUTIVE": 4,
   "LUXURY": 4,

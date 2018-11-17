@@ -10,6 +10,8 @@ export interface Option {
   price: number;
 }
 
+export type CarTypes = {[car_type: string]: {supplier: string, price: number}};
+
 export interface SupplierErroResponse {
   timestamp: string;
   status: number;
@@ -37,4 +39,3 @@ export function isSupplierResponse(value: SupplierResponse | Error): value is Su
   return (<SupplierResponse>value).supplier_id !== undefined;
 }
 
-export type CarTypes = {[s: string]: {supplier: string, price: number}};

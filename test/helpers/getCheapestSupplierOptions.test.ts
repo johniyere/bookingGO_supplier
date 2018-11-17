@@ -1,9 +1,12 @@
-import { getCheapestCartType } from "../../src/helpers/cheapestCarTypes";
+import MockAdapter from "axios-mock-adapter";
+import axios from 'axios';
 import { SupplierResponse } from "../../src/helpers/Responses";
+import { getCheapestSupplierOptions } from "../../src/helpers/cheapestSupplierOptions";
 
-it('should return the cheapest type', () => {
-  const suppliers: SupplierResponse[] = [
-    {
+describe('getCheapestSupplierOptions', () => {
+  it('should return cheapest supplier options', async () => {
+    let mock = new MockAdapter(axios);
+    const daveData: SupplierResponse = {
       "supplier_id": "DAVE",
       "pickup": "51.470020,-0.454295",
       "dropoff": "51.00000,1.0000",
@@ -21,8 +24,8 @@ it('should return the cheapest type', () => {
             "price": 1000
         },
       ]
-    },
-    {
+    }
+    const ericData: SupplierResponse = {
       "supplier_id": "ERIC",
       "pickup": "51.470020,-0.454295",
       "dropoff": "51.00000,1.0000",
@@ -40,8 +43,8 @@ it('should return the cheapest type', () => {
           "price": 1200
         }
       ]
-    },
-    {
+    }
+    const jeffData: SupplierResponse = {
       "supplier_id": "JEFF",
       "pickup": "51.470020,-0.454295",
       "dropoff": "51.00000,1.0000",
@@ -59,34 +62,24 @@ it('should return the cheapest type', () => {
           "price": 500
         }
       ]
-    },
-  ]
+    }
 
-  const result = getCheapestCartType(suppliers)
-  expect(result).toEqual({
-    "STANDARD": {
-      supplier: 'DAVE',
-      price: 900
-    },
-    "EXECUTIVE": {
-      supplier: 'ERIC',
-      price: 1200
-    },
-    "LUXURY": {
-      supplier: 'DAVE',
-      price: 1000
-    },
-    "PEOPLE_CARRIER":{
-      supplier: 'M',
-      price: Number.MAX_SAFE_INTEGER
-    },
-    "LUXURY_PEOPLE_CARRIER": {
-      supplier: 'M',
-      price: Number.MAX_SAFE_INTEGER
-    },
-    "MINIBUS": {
-      supplier: 'JEFF',
-      price: 500
-    },
+    mock
+      .onGet('https://techtest.rideways.com/dave').reply(200, daveData)
+      .onGet('https://techtest.rideways.com/eric').reply(200, ericData)
+      .onGet('https://techtest.rideways.com/jeff').reply(200, jeffData);
+
+
+    const pickup = '3.410632,-2.157533';
+    const dropoff = '3.410632,-2.157533';
+    const no_of_passengers = 5;
+
+    expect.assertions(1)
+    await expect(getCheapestSupplierOptions(pickup, dropoff, no_of_passengers)).resolves.toEqual({
+      "MINIBUS": {
+        supplier: 'JEFF',
+        price: 500
+      }
+    })
   })
 })

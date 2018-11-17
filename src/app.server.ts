@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import express from "express";
 import bodyParser from "body-parser";
 import { getCheapestSupplierOptions } from "./helpers/cheapestSupplierOptions";
+import MockAdapter from 'axios-mock-adapter';
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.get('/api', async (req: Request, res: Response, next: NextFunction) => {
     const dropoff = req.query.dropoff;
     const no_of_passengers = parseInt(req.query.no_of_passengers);
     const result = await getCheapestSupplierOptions(pickup, dropoff, no_of_passengers);
-    res.json(result)
+    res.status(200).json(result)
   } catch (err) {
     next(err)
   }

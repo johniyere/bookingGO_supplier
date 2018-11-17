@@ -27,10 +27,11 @@ export async function retrieveData(endpoint: string, pickup: string, dropoff: st
     if (err.code == 'ECONNABORTED') {
       customError = new TimeoutError(err.message, endpoint)
     } 
-    // console.log(err)
+
     if (err.response && err.response.data) {
       customError = new SupplierError(err.message, err.response.data)
     }
+    
     return customError;
   }
 

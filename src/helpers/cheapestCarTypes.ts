@@ -42,12 +42,12 @@ export function getCheapestCartType(suppliers: SupplierResponse[]) {
   return validCarTypes;
 }
 
-export function returnValidCarTypes(carTypes: CarTypes) {
-  let validCarTypes: CarTypes = {}
+function returnValidCarTypes(carTypes: CarTypes) {
+  let validCarTypes: CarTypes = {};
 
   for (var key in carTypes) {
     if (carTypes[key].supplier != 'M')
-      validCarTypes[key] = carTypes[key]
+      validCarTypes[key] = carTypes[key];
   }
 
   return validCarTypes

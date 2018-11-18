@@ -90,7 +90,7 @@ describe('GET /api', () => {
       })
   });
 
-  it("should return 422 status error", () => {
+  it("should return 422 error on dropoff", () => {
     const url = '/api?pickup=3.410632,-2.157533&dropoff=3.410632,-2.157533asasa&no_of_passengers=5';
 
     return request(app).get(url)

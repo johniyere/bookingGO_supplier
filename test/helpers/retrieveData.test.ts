@@ -68,6 +68,17 @@ describe('retrieveData', () => {
     
     await expect(retrieveData(endPoint, pickup, dropoff)).resolves.toBeInstanceOf(SupplierError)
   })
+
+  it('should handle network error', async () => {
+    let mock = new MockAdapter(axios);
+
+    mock.onGet('https://techtest.rideways.com/eric').networkError();
+    const endPoint = 'dave'
+    const pickup = '3.410632,-2.157533';
+    const dropoff = '3.410632,-2.157533';
+    expect.assertions(1);
+    await expect(retrieveData(endPoint, pickup, dropoff)).resolves.toBeInstanceOf(Error)
+  })
 })
 
 describe('retrieveSupplierInfo', () => {

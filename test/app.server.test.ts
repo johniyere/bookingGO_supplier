@@ -88,5 +88,21 @@ describe('GET /api', () => {
           price: 500
         }
       })
+  });
+
+  it("should return 422 status error", () => {
+    const url = '/api?pickup=3.410632,-2.157533&dropoff=3.410632,-2.157533asasa&no_of_passengers=5';
+
+    return request(app).get(url)
+      .expect(422, {
+        "errors": [
+          {
+            "location": "query",
+            "param": "dropoff",
+            "value": "3.410632,-2.157533asasa",
+            "msg": "Not correct format"
+          }
+        ]
+      }) 
   })
 })

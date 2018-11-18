@@ -2,7 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import express from "express";
 import bodyParser from "body-parser";
 import { getCheapestSupplierOptions } from "./helpers/cheapestSupplierOptions";
-import MockAdapter from 'axios-mock-adapter';
+import { query, validationResult } from "express-validator/check";
+import { locationValidator } from "./helpers/validators";
 
 const app = express();
 
@@ -10,7 +11,16 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.get('/api', async (req: Request, res: Response, next: NextFunction) => {
+app.get('/api', [
+  query('pickup').exists().withMessage('Must be provided').custom(locationValidator),
+  query('dropoff').exists().withMessage('Must be provided').custom(locationValidator),
+  query('no_of_passengers').optional().isInt().withMessage('Must be an integer')
+],async (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
   try {
     const pickup = req.query.pickup;
     const dropoff = req.query.dropoff;

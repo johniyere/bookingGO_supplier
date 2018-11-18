@@ -1,5 +1,6 @@
 import {PromptObject} from "prompts";
 import prompts from "prompts";
+import { validateInput } from "./validators";
 
 export interface PromptResponse {
   pickupLatitude: string;
@@ -15,25 +16,25 @@ export function askQuestions() {
       type: 'text',
       name: 'pickupLatitude',
       message: 'Pickup Latitude',
-      validate: isInputFloat
+      validate: validateInput
     },
     {
       type: 'text',
       name: 'pickupLongitude',
       message: 'Pickup Longitude',
-      validate: isInputFloat
+      validate: validateInput
     },
     {
       type: 'text',
       name: 'dropoffLatitude',
       message: 'Dropoff Latitude',
-      validate: isInputFloat
+      validate: validateInput
     },
     {
       type: 'text',
       name: 'dropoffLongitude',
       message: 'Dropoff Latitude',
-      validate: isInputFloat
+      validate: validateInput
     },
     {
       type: 'number',
@@ -45,15 +46,4 @@ export function askQuestions() {
  return prompts(questions) as PromptResponse;
 };
 
-export function isInputFloat(value: string) {
-  const converterdValue = Number(value);
-  return  isNaN(converterdValue) ? `Only floats are allowed` : true; 
-}
 
-export function allInputsProvided(input: any) {
-  return 'pickupLatitude' in input &&
-  'pickupLongitude' in input &&
-  'dropoffLatitude' in input &&
-  'dropoffLongitude' in input &&
-  'no_of_passengers' in input
-}

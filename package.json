@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose --coverage",
-    "start-dave": "ts-node src/app.dave.ts",
+    "test": "jest --verbose",
     "start-cli": "ts-node src/app.cli.ts",
     "start-api": "ts-node src/bin/www.ts"
   },

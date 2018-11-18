@@ -1,5 +1,27 @@
-import { Option } from "./Responses";
+import { Option } from "./helpers/Responses";
 
+const options: Option[] = [
+  {
+    "car_type": "STANDARD",
+    "price": 671808
+  },
+  {
+    "car_type": "EXECUTIVE",
+    "price": 375545
+  },
+  {
+    "car_type": "LUXURY",
+    "price": 583438
+  },
+  // {
+  //   "car_type": "PEOPLE_CARRIER",
+  //   "price": 423232
+  // },
+  {
+    "car_type": "MINIBUS",
+    "price": 37456
+  }
+]
 const car_type_max: {[car_type: string]: number} = {
   "STANDARD": 4,
   "EXECUTIVE": 4,
@@ -22,4 +44,8 @@ function shouldReturn(no_of_passengers: number) {
                   .map((value) => value + no_of_passengers);
   return diff.shift()
 
+
 }
+
+
+console.log(limitOptions(options, 5));
